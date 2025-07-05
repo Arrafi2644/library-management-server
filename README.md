@@ -5,7 +5,7 @@ A RESTful API built using **Express**, **TypeScript**, and **MongoDB (Mongoose)*
 ---
 
 ## 🌐 Live Demo  
-[https://library-management-app-alpha.vercel.app](https://library-management-app-alpha.vercel.app)
+[https://library-management-server-self.vercel.app](https://library-management-server-self.vercel.app)
 
 
 ## 🔧 Features
