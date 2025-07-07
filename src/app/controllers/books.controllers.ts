@@ -37,7 +37,7 @@ booksRoutes.get('/', async (req: Request, res: Response) => {
         const filter = req.query.filter as string || "";
         const sortBy = req.query.sortBy as string || "createdAT"
         const sort = req.query.sort === "asc" ? 1 : -1;
-        const limit = parseInt(req.query.limit as string) || 10;
+        const limit = parseInt(req.query.limit as string) || 20;
 
         let query: { [key: string]: any } = {};
         if (filter) {
@@ -85,27 +85,34 @@ booksRoutes.get('/:bookId', async (req: Request, res: Response) => {
     }
 })
 
+
 // update book 
 booksRoutes.put('/:bookId', async (req: Request, res: Response) => {
     try {
         const bookId = req.params.bookId;
         const updatedBook = req.body;
 
-        const book = await Book.findByIdAndUpdate(bookId, updatedBook, { new: true })
+        // 🟡 Check if "copies" is being updated
+        if (typeof updatedBook.copies === 'number') {
+            updatedBook.available = updatedBook.copies > 0;
+        }
+
+        const book = await Book.findByIdAndUpdate(bookId, updatedBook, { new: true });
 
         res.status(200).json({
             success: true,
             message: "Book updated successfully",
-            data: book
-        })
+            data: book,
+        });
     } catch (error: any) {
         res.status(500).json({
             success: false,
             message: error.message,
-            error: error
-        })
+            error: error,
+        });
     }
-})
+});
+
 
 // delete book
 
